@@ -26,43 +26,42 @@
 		"onCommand:extension.ibmiRunSqlFromAcs"
 	],
 	"main": "./out/extension.js",
-
 	"contributes": {
-
 		"configuration": {
 			"title": "IBM i run SQL from ACS",
 			"properties": {
-			  "ibm-i-run-sql-from-acs.host": {
-				"type": "string",
-				"default": "",
-				"description": "Name of IBM i"
-			  },
-			  "ibm-i-run-sql-from-acs.schema": {
-				"type": "string",
-				"default": "",
-				"description": "Db2 schema name on your IBM i"
-			  },
-			  "ibm-i-run-sql-from-acs.acsjar": {
-				"type": "string",
-				"default": "/usr/local/ibmiaccess/acsbundle.jar",
-				"description": "Absolute path and name for the IBM i Access Client Solution (ACS) jar bundle"
-			  }
+				"ibm-i-run-sql-from-acs.host": {
+					"type": "string",
+					"default": "",
+					"description": "Name of IBM i"
+				},
+				"ibm-i-run-sql-from-acs.schema": {
+					"type": "string",
+					"default": "",
+					"description": "Db2 schema name on your IBM i"
+				},
+				"ibm-i-run-sql-from-acs.acsjar": {
+					"type": "string",
+					"default": "/usr/local/ibmiaccess/acsbundle.jar",
+					"description": "Absolute path and name for the IBM i Access Client Solution (ACS) jar bundle"
+				}
 			}
 		},
-
-
-
-		"commands" : [{
-			"command": "extension.ibmiRunSqlFromAcs",
-			"title": "IBM i run SQL from ACS"
-		}],
-		"menus": {
-			"explorer/context":[{
-				"when": "resourceLangId == sql",
+		"commands": [
+			{
 				"command": "extension.ibmiRunSqlFromAcs",
-				"title": "IBM i run SQL from ACS",
-				"group": "navigation"
-			}]
+				"title": "IBM i run SQL from ACS"
+			}
+		],
+		"menus": {
+			"explorer/context": [
+				{
+					"when": "resourceLangId == sql",
+					"command": "extension.ibmiRunSqlFromAcs",
+					"title": "IBM i run SQL from ACS",
+					"group": "navigation"
+				}
+			]
 		}
 	},
 	"scripts": {
@@ -76,5 +75,10 @@
 		"@types/vscode": "^1.34.0",
 		"tslint": "^5.16.0",
 		"typescript": "^3.5.1"
-	}
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/NielsLiisberg/vscode-ibm-i-run-sql-with-acs"
+	},
+	"homepage": "https://github.com/NielsLiisberg/vscode-ibm-i-run-sql-with-acs/blob/master/README.md"
 }

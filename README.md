@@ -1,4 +1,4 @@
-## IBM i - Run SQL from ACS
+# IBM i - Run SQL from ACS
 
 This extension lets you use vsCode as the project explorer and lets you open and run any SQL file with IBM i Access Client solution (ACS). This gives you a perfect integration between vsCode and IBM i ACS. vsCode comes with loads of features like git and replace in files etc. - now with this extension it is all integrated.
 

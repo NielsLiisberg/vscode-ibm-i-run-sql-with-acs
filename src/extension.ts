@@ -21,7 +21,6 @@ export function activate(context: vscode.ExtensionContext) {
 		const schema:string  = config.get('schema') || ''
 		const acsjar:string  = config.get('acsjar') || ''
 		
-
 		if ( (host <= '') ||  (schema <= '')) {
 			vscode.window.showInformationMessage('You need to set the host and schema in "IBM i open SQL with ACS" workspace')
 			return
