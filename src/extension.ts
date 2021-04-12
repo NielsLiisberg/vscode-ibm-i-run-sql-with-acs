@@ -1,165 +1,45 @@
-'use strict';
-
+// The module 'vscode' contains the VS Code extensibility API
+// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-import { IbmiFS } from './fileSystemProvider';
+import * as cp from 'child_process';
 
-
+// this method is called when your extension is activated
+// your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
+	// Use the console to output diagnostic information (console.log) and errors (console.error)
+	// This line of code will only be executed once when your extension is activated
+	console.log('Activation ACS ');
 
+	// The command has been defined in the package.json file
+	// Now provide the implementation of the command with registerCommand
+	// The commandId parameter must match the command field in package.json
+	let disposable = vscode.commands.registerCommand('extension.ibmiRunSqlFromAcs', (p1) => {
 
-    const ibmiFs = new IbmiFS();
+		// Run the ACS plugin for SQL
+		const config = vscode.workspace.getConfiguration("ibm-i-run-sql-from-acs")
+		const host:string    = config.get('host')   || '' 
+		const schema:string  = config.get('schema') || ''
+		const acsjar:string  = config.get('acsjar') || ''
+		
 
-   
-    context.subscriptions.push(vscode.workspace.registerFileSystemProvider('ibmifs', ibmiFs, { isCaseSensitive: false }));
-    let initialized = false;
-
-    context.subscriptions.push(vscode.commands.registerCommand('ibmifs.reset', _ => {
-
-        /* 
-        for (const [name] of ibmiFs.readDirectory(vscode.Uri.parse('ibmifs:/'))) {
-            ibmiFs.delete(vscode.Uri.parse(`ibmifs:/${name}`));
-        }
-        */
-        initialized = false;
-    }));
-
-    context.subscriptions.push(vscode.commands.registerCommand('ibmifs.addFile', _ => {
-        // TEST BEGIN;
-        function showDialog () {
-            return async function() {
-                return await vscode.window.showQuickPick(
-                [
-                    { label: 'User', description: 'User Settings', target: vscode.ConfigurationTarget.Global },
-                    { label: 'Workspace', description: 'Workspace Settings', target: vscode.ConfigurationTarget.Workspace }
-                ],
-                { placeHolder: 'Select the view to show when opening a window.' });
-            }
-        }
-
-        showDialog()
-        // TEST END;
-
-
-        if (initialized) {
-            ibmiFs.writeFile(vscode.Uri.parse(`ibmifs:/file.txt`), Buffer.from('foo'), { create: true, overwrite: true });
-        }
-    }));
-
-    context.subscriptions.push(vscode.commands.registerCommand('ibmifs.deleteFile', _ => {
-        if (initialized) {
-            ibmiFs.delete(vscode.Uri.parse('ibmifs:/file.txt'));
-        }
-    }));
-    
-    /*
-    context.subscriptions.push(vscode.commands.registerCommand('ibmifs.newConnection', _ => {
-
-        console.log("Nwe connection")
-
-        function showDialog () {
-            return async function() {
-                return await vscode.window.showQuickPick(
-                [
-                    { label: 'User', description: 'User Settings', target: vscode.ConfigurationTarget.Global },
-                    { label: 'Workspace', description: 'Workspace Settings', target: vscode.ConfigurationTarget.Workspace }
-                ],
-                { placeHolder: 'Select the view to show when opening a window.' });
-            }
-        }
-
-        showDialog()
-    }));
-    */
-
-    //vscode.commands.registerCommand('config.commands.configureViewOnWindowOpen', async () => {
-    context.subscriptions.push(vscode.commands.registerCommand('ibmifs.newConnection', async () => {
-
-        const result = await vscode.window.showInputBox({
-            //value: '',
-            //valueSelection: [2, 4],
-            placeHolder: 'Enter name of your IBM i',
-            /* validateInput: text => {
-                vscode.window.showInformationMessage(`Validating: ${text}`);
-                return text === '123' ? 'Not 123!' : null;
-            }*/
-        });
-        vscode.window.showInformationMessage(`Got: ${result}`);
-        vscode.workspace.updateWorkspaceFolders(0, 0, { uri: vscode.Uri.parse('ibmifs:/'), name: result });
-
-    }))
-
-/*
-		// 1) Getting the value
-		const value = await vscode.window.showQuickPick(
-            ['explorer', 'search', 'scm', 'debug', 'extensions'],
-             { placeHolder: 'Select the view to show when opening a window.' });
-
-		if (vscode.workspace.workspaceFolders) {
-
-			// 2) Getting the Configuration target
-			const target = await vscode.window.showQuickPick(
-				[
-					{ label: 'User', description: 'User Settings', target: vscode.ConfigurationTarget.Global },
-					{ label: 'Workspace', description: 'Workspace Settings', target: vscode.ConfigurationTarget.Workspace }
-				],
-				{ placeHolder: 'Select the view to show when opening a window.' });
-
-			if (value && target) {
-
-				// 3) Update the configuration value in the target
-				await vscode.workspace.getConfiguration().update('conf.view.showOnWindowOpen', value, target.target);
-
-				/*
-				// Default is to update in Workspace
-				await vscode.workspace.getConfiguration().update('conf.view.showOnWindowOpen', value);
-				* /
-			}
-		} else {
-
-			// 2) Update the configuration value in User Setting in case of no workspace folders
-			await vscode.workspace.getConfiguration().update('conf.view.showOnWindowOpen', value, vscode.ConfigurationTarget.Global);
+		if ( (host <= '') ||  (schema <= '')) {
+			vscode.window.showInformationMessage('You need to set the host and schema in "IBM i open SQL with ACS" workspace')
+			return
 		}
 
-
+		// const rc = cp.exec(`java -jar /usr/local/ibmiaccess/acsbundle.jar /plugin=rss /autorun=0 /database=${schema} /system=${host} /file="${p1.path}"`, (err: string, stdout: string, stderr: string) => {
+		
+		const rc = cp.exec(`java -jar ${acsjar} /plugin=rss /autorun=0 /database=${schema} /system=${host} /file="${p1.path}"`, (err: any , stdout: string, stderr: string) => {
+			console.log('stdout: ' + stdout);
+			console.log('stderr: ' + stderr);
+			if (err) {
+				console.log('error: ' + err);
+			}
+		});
 	});
-
-    */
-
-    context.subscriptions.push(vscode.commands.registerCommand('ibmifs.init', _ => {
-
-    
-        console.dir("ibmifs.init...");
-        if (initialized) {
-            return;
-        }
-        initialized = true;
-
-    }));
-
-    context.subscriptions.push(vscode.commands.registerCommand('ibmifs.workspaceInit', async _ => {
-
-        // TEST END;
-
-        const result = await vscode.window.showInputBox({
-            //value: '',
-            //valueSelection: [2, 4],
-            placeHolder: 'Enter name of your IBM i',
-            validateInput: text => {
-                vscode.window.showInformationMessage(`Validating: ${text}`);
-                return text === '123' ? 'Not 123!' : null;
-            }
-        });
-        vscode.window.showInformationMessage(`Got: ${result}`);
-    
-
-        //vscode.workspace.updateWorkspaceFolders(0, 0, { uri: vscode.Uri.parse('ibmifs:/'), name: "IbmiFS - Sample" });
-        vscode.workspace.updateWorkspaceFolders(0, 0, { 
-            uri: vscode.Uri.parse('ibmifs:/'), 
-            name: ibmiFs.sysconfig.host
-            //user: ibmiFs.sysconfig.user,
-            //password: ibmiFs.sysconfig.password,
-
-        });
-        console.dir("ibmifs.workspaceInit...");
-    }));
+	
+	context.subscriptions.push(disposable);
 }
+
+// this method is called when your extension is deactivated
+export function deactivate() {}

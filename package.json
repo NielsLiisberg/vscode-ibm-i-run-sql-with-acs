@@ -1,108 +1,68 @@
 {
-	"name": "vscode-ibmifs",
-	"displayName": "IbmiFS - a file system provider for source files on IBM i",
-	"description": "IBM i files are stored i source physical files - this filesys uses the FTP protocol and stored procedures to access these files",
-	"version": "0.0.3",
-	"publisher": "vscode-samples",
-	"repository": {
-		"url": "git@gitlab.devops.sitemule.com:Liisberg/vscode-ibm-i-file-system-explorer.git",
-		"type": "git"
+	"name": "ibm-i-run-sql-from-acs",
+	"displayName": "IBM i SQL",
+	"description": "IBM i run SQL from ACS",
+	"version": "0.0.1",
+	"icon": "logo.jpg",
+	"publisher": "NielsLiisberg",
+	"readme": "README.md",
+	"author": {
+		"name": "Niels Liisberg"
 	},
 	"engines": {
-		"vscode": "^1.32.0"
+		"vscode": "^1.4.0"
 	},
+	"keywords": [
+		"SQL",
+		"IBM i",
+		"IBMI",
+		"AS/400",
+		"ISERIES"
+	],
 	"categories": [
-		"Other"
+		"Programming Languages"
 	],
 	"activationEvents": [
-		"onFileSystem:ibmifs",
-		"onCommand:ibmifs.workspaceInit",
-		"onCommand:ibmifs.init",
-		"onCommand:ibmifs.reset"
+		"onCommand:extension.ibmiRunSqlFromAcs"
 	],
-	"main": "./out/src/extension",
+	"main": "./out/extension.js",
+
 	"contributes": {
 
 		"configuration": {
-			"title": "IbmiFS",
+			"title": "IBM i run SQL from ACS",
 			"properties": {
-			  "ibmifs.host": {
-				"type": ["string"],
+			  "ibm-i-run-sql-from-acs.host": {
+				"type": "string",
 				"default": "",
-				"description": "The host name or TCP/IP address of your IBM i"
+				"description": "Name of IBM i"
 			  },
-			  "ibmifs.user": {
-				"type": ["string"],
+			  "ibm-i-run-sql-from-acs.schema": {
+				"type": "string",
 				"default": "",
-				"description": "Your IBMi user ID"
+				"description": "Db2 schema name on your IBM i"
 			  },
-			  "ibmifs.password": {
-				"type": ["string"],
-				"default": "",
-				"description": "Your IBMi password"
-			  },
-			  "ibmifs.libraries": {
-				"type": ["string"],
-				"default": "",
-				"description": "Libraries containing sourcefiles. (Separated by blanks)"
-			  },
-			  "ibmifs.sourcefiles": {
-				"type": ["string"],
-				"default": "*ALL",
-				"description": "Source files, Generic* or *ALL (Separated by blanks)"
+			  "ibm-i-run-sql-from-acs.acsjar": {
+				"type": "string",
+				"default": "/usr/local/ibmiaccess/acsbundle.jar",
+				"description": "Absolute path and name for the IBM i Access Client Solution (ACS) jar bundle"
 			  }
 			}
 		},
-		"commands": [
-			{
-				"command": "ibmifs.workspaceInit",
-				"title": "Setup Workspace and connect",
-				"category": "IbmiFS"
-			},
-			{
-				"command": "ibmifs.reset",
-				"title": "Reset connection",
-				"category": "IbmiFS"
-			},
-			{
-				"command": "ibmifs.init",
-				"title": "Initialize",
-				"category": "IbmiFS"
-			},
-			{
-				"command": "ibmifs.newFilter",
-				"title": "New filter",
-				"category": "IbmiFS"
-			},
-			{
-				"command": "ibmifs.addFile",
-				"title": "Add new file",
-				"category": "IbmiFS"
-			}
-		],
+
+
+
+		"commands" : [{
+			"command": "extension.ibmiRunSqlFromAcs",
+			"title": "IBM i run SQL from ACS"
+		}],
 		"menus": {
-			"commandPalette": [
-				{
-					"command": "ibmifs.init",
-					"when": "workbenchState == workspace"
-				},
-				{
-					"command": "ibmifs.reset",
-					"when": "workbenchState == workspace"
-				},
-				{
-					"command": "ibmifs.newFilter",
-					"when": "workbenchState == workspace"
-				},
-				{
-					"command": "ibmifs.addFile",
-					"when": "workbenchState == workspace"
-				},
-				{
-					"command": "ibmifs.workspaceInit",
-					"when": "workbenchState != workspace"
-				}
-			]
+			"explorer/context":[{
+				"when": "resourceLangId == sql",
+				"command": "extension.ibmiRunSqlFromAcs",
+				"title": "IBM i run SQL from ACS",
+				"group": "navigation"
+			}]
 		}
 	},
 	"scripts": {
@@ -112,16 +72,9 @@
 		"watch": "tsc -watch -p ./"
 	},
 	"devDependencies": {
-		"@types/node": "^7.0.43",
-		"@types/ssh2": "^0.5.39",
-		"@types/vscode": "^1.32.0",
+		"@types/node": "^10.14.17",
+		"@types/vscode": "^1.34.0",
 		"tslint": "^5.16.0",
 		"typescript": "^3.5.1"
-	},
-	"dependencies": {
-		"@types/ftp": "^0.3.30",
-		"ftp": "^0.3.10",
-		"iconv-lite": "^0.5.0",
-		"ssh2": "^0.8.7"
 	}
 }
