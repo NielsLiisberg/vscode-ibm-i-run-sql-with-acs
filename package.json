@@ -1,0 +1,127 @@
+{
+	"name": "vscode-ibmifs",
+	"displayName": "IbmiFS - a file system provider for source files on IBM i",
+	"description": "IBM i files are stored i source physical files - this filesys uses the FTP protocol and stored procedures to access these files",
+	"version": "0.0.3",
+	"publisher": "vscode-samples",
+	"repository": {
+		"url": "git@gitlab.devops.sitemule.com:Liisberg/vscode-ibm-i-file-system-explorer.git",
+		"type": "git"
+	},
+	"engines": {
+		"vscode": "^1.32.0"
+	},
+	"categories": [
+		"Other"
+	],
+	"activationEvents": [
+		"onFileSystem:ibmifs",
+		"onCommand:ibmifs.workspaceInit",
+		"onCommand:ibmifs.init",
+		"onCommand:ibmifs.reset"
+	],
+	"main": "./out/src/extension",
+	"contributes": {
+
+		"configuration": {
+			"title": "IbmiFS",
+			"properties": {
+			  "ibmifs.host": {
+				"type": ["string"],
+				"default": "",
+				"description": "The host name or TCP/IP address of your IBM i"
+			  },
+			  "ibmifs.user": {
+				"type": ["string"],
+				"default": "",
+				"description": "Your IBMi user ID"
+			  },
+			  "ibmifs.password": {
+				"type": ["string"],
+				"default": "",
+				"description": "Your IBMi password"
+			  },
+			  "ibmifs.libraries": {
+				"type": ["string"],
+				"default": "",
+				"description": "Libraries containing sourcefiles. (Separated by blanks)"
+			  },
+			  "ibmifs.sourcefiles": {
+				"type": ["string"],
+				"default": "*ALL",
+				"description": "Source files, Generic* or *ALL (Separated by blanks)"
+			  }
+			}
+		},
+		"commands": [
+			{
+				"command": "ibmifs.workspaceInit",
+				"title": "Setup Workspace and connect",
+				"category": "IbmiFS"
+			},
+			{
+				"command": "ibmifs.reset",
+				"title": "Reset connection",
+				"category": "IbmiFS"
+			},
+			{
+				"command": "ibmifs.init",
+				"title": "Initialize",
+				"category": "IbmiFS"
+			},
+			{
+				"command": "ibmifs.newFilter",
+				"title": "New filter",
+				"category": "IbmiFS"
+			},
+			{
+				"command": "ibmifs.addFile",
+				"title": "Add new file",
+				"category": "IbmiFS"
+			}
+		],
+		"menus": {
+			"commandPalette": [
+				{
+					"command": "ibmifs.init",
+					"when": "workbenchState == workspace"
+				},
+				{
+					"command": "ibmifs.reset",
+					"when": "workbenchState == workspace"
+				},
+				{
+					"command": "ibmifs.newFilter",
+					"when": "workbenchState == workspace"
+				},
+				{
+					"command": "ibmifs.addFile",
+					"when": "workbenchState == workspace"
+				},
+				{
+					"command": "ibmifs.workspaceInit",
+					"when": "workbenchState != workspace"
+				}
+			]
+		}
+	},
+	"scripts": {
+		"vscode:prepublish": "npm run compile",
+		"compile": "tsc -p ./",
+		"lint": "tslint -p ./",
+		"watch": "tsc -watch -p ./"
+	},
+	"devDependencies": {
+		"@types/node": "^7.0.43",
+		"@types/ssh2": "^0.5.39",
+		"@types/vscode": "^1.32.0",
+		"tslint": "^5.16.0",
+		"typescript": "^3.5.1"
+	},
+	"dependencies": {
+		"@types/ftp": "^0.3.30",
+		"ftp": "^0.3.10",
+		"iconv-lite": "^0.5.0",
+		"ssh2": "^0.8.7"
+	}
+}
