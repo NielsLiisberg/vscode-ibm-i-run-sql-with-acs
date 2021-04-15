@@ -19,7 +19,7 @@ Find the location of the the acsbundle.jar . Normally it is found in the user fo
 
 ### The IBM i host 
 
-This is the network name or TCP/IP address of you IBM i.
+This is the network name or TCP/IP address of you IBM i, defined in the host list in ACS
 
 ### Default schema
 
