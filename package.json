@@ -2,7 +2,7 @@
 	"name": "ibm-i-run-sql-from-acs",
 	"displayName": "IBM i SQL",
 	"description": "IBM i run SQL from ACS",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"icon": "logo.jpg",
 	"publisher": "NielsLiisberg",
 	"readme": "README.md",
@@ -17,6 +17,10 @@
 		"IBM i",
 		"IBMI",
 		"AS/400",
+		"AS400",
+		"Db2",
+		"Db2 for i",
+		"Db2 for IBM i",
 		"ISERIES"
 	],
 	"categories": [
