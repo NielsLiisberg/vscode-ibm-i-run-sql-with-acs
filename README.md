@@ -1,11 +1,11 @@
 # IBM i - Run SQL from ACS
 
-This extension lets you use vsCode as the project explorer and lets you open and run any SQL file with IBM i Access Client solution (ACS). This gives you a perfect integration between vsCode and IBM i ACS. vsCode comes with loads of features like git and replace in files etc. - now with this extension it is all integrated.
+This extension lets you use VSCode as the project explorer and lets you open and run any SQL file with IBM i Access Client solution (ACS). This gives you a perfect integration between VSCode and IBM i ACS. VSCode comes with loads of features like git and replace in files etc. - now with this extension it is all integrated.
 
 ## Demo
 
 
-![](demo.gif)
+![](demo2.gif)
 
 ## Requirements
 
@@ -19,7 +19,11 @@ Find the location of the the acsbundle.jar . Normally it is found in the user fo
 
 ### The IBM i host 
 
-This is the network name or TCP/IP address of you IBM i, defined in the host list in ACS
+This is the network name or TCP/IP address of you IBM i, defined in the host list in ACS. Separarte the names of hosts by a comma: 
+```
+IBMI1,IBMI2 
+```
+And you can even have different hosts in either the workspace ( project specific) or defined by user ( user / global).
 
 ### Default schema
 
