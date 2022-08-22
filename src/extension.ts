@@ -25,8 +25,9 @@ export function activate(context: vscode.ExtensionContext) {
 			return
 		}
 
-		let hosts = host.replace(/[\W]+/g,' ').split(' ')
+		let hosts = host.split(',')
 		if  (hosts.length >1) {
+			hosts.forEach((v,i,a)=> a[i]=a[i].trim()) 
 			const newhost  = await vscode.window.showQuickPick(hosts, { placeHolder: 'Host to run the SQL.' })
 			if (! newhost) return 
 			host = newhost || ''
